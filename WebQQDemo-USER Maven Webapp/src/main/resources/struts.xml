@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- Struts默认的视图主题 (简化的) -->
+	<!-- 指定Struts 2默认的ObjectFactory Bean，该属性默认值是spring -->
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="ture"></constant>
+	<!-- 所有匹配*.do的请求都由struts2处理 -->
+	<constant name="struts.action.extension" value="do" />
+	<!-- 不使用动态方法调用(request中的叹号) -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- action name中允许使用斜杠 -->
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+
+	<package name="login" extends="struts-default" namespace="/login" >
+		<action name="loginAction" class="loginAction">
+		</action>
+	</package>
+</struts>

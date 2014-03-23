@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:tool="http://www.springframework.org/schema/tool" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+            http://www.springframework.org/schema/tx  
+            http://www.springframework.org/schema/tx/spring-tx.xsd  
+            http://www.springframework.org/schema/aop  
+            http://www.springframework.org/schema/aop/spring-aop.xsd  
+            http://www.springframework.org/schema/context  
+            http://www.springframework.org/schema/context/spring-context.xsd  
+           http://www.springframework.org/schema/jee  
+           http://www.springframework.org/schema/jee/spring-jee.xsd  
+           http://www.springframework.org/schema/util  
+           http://www.springframework.org/schema/util/spring-util.xsd  
+           http://www.springframework.org/schema/tool  
+           http://www.springframework.org/schema/tool/spring-tool.xsd"
+	default-lazy-init="true" default-autowire="byName">
+
+	<!-- 配置数据库的信息 -->
+	<!-- jdbc.properties文件位置的配置 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations"
+			value="classpath:jdbc.properties" />
+	</bean>
+
+	<!-- c3p0连接池配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="${jdbc.miniPoolSize}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}" />
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+		<property name="acquireIncrement" value="${jdbc.acquireIncrement}" />
+
+		<property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}" />
+		<property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}" />
+		<!-- c3p0会自动建一个test表 -->
+		<!-- <property name="automaticTestTable" value="${jdbc.automaticTestTable}" 
+			/> -->
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}" />
+		<property name="checkoutTimeout" value="${jdbc.checkoutTimeout}" />
+	</bean>
+
+
+	<!-- 配置SessionFactory，据说这个packagesToScan不能扫描子包 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.masque.qq.demo.domain.*</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<!-- 自动建表 -->
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- transactionManager 
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory">
+		</property>
+	</bean> -->
+
+	<!--采用注解来管理Bean -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config expose-proxy="true">
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut id="txPointcut"
+			expression="execution(* org.masque.qq.demo.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
+
+  	<bean id="baseAction" class="org.masque.qq.demo.base.BaseAction"></bean>
+  	<bean id="loginAction" class="org.masque.qq.demo.action.LoginAction"></bean>
+</beans>  
