@@ -1,4 +1,4 @@
-package org.masque.qq.demo.domain;
+package org.masque.qq.demo.vo;
 /**
  * 
  * <p>Project: Masque's Base</p>

@@ -1,6 +1,6 @@
 package org.masque.qq.demo.vo;
 
-public class User extends BaseVo implements java.io.Serializable{
+public class User extends BaseVo implements java.io.Serializable {
 
 	/**
 	 * 
@@ -8,8 +8,8 @@ public class User extends BaseVo implements java.io.Serializable{
 	private static final long serialVersionUID = 7886983936678906986L;
 
 	private String userName;
-	
-	private String passWord;
+
+	private String password;
 
 	public String getUserName() {
 		return userName;
@@ -19,11 +19,18 @@ public class User extends BaseVo implements java.io.Serializable{
 		this.userName = userName;
 	}
 
-	public String getPassWord() {
-		return passWord;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return com.google.common.base.Objects.toStringHelper(this)
+				.add("userName", userName).add("password", password)
+				.toString();
 	}
 }
