@@ -5,7 +5,7 @@ import org.masque.qq.demo.base.BaseAction;
 /**
  * 
  * <p>Project: Masque's Base</p>
- * <p>Description: </p>
+ * <p>Description: 登陆的action</p>
  * <p>Copyright (c) 2014 Masque.All Rights Reserved.</p>
  * @author <a href="masque.java@gmail.com">Masque</a>
  */
