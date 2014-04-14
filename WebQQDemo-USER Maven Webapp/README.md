@@ -13,19 +13,23 @@ base: 基础的父类
 
 common：框架类型的工具类
 
-main：
+dao:持久层数据交互
 
-service: 数据服务通讯接口
+domain:与数据库实体一一对应
 
-service.impl：数据服务通讯接口的实现
+filter:过滤器
 
-util:一般数据处理的工具类
+server:数据服务通讯接口
+
+service:业务逻辑
+
+service.impl：业务逻辑的实现
 
 dao:与数据库交互的接口
 
 dao.impl:与数据库交互的接口的实现
 
-vo:实体数据
+vo:其他实体对象
 
 
 可以建群
