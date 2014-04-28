@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WebQQDemo-USER:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="WebQQDemo-USER.war">
+      <element id="artifact" artifact-name="WebQQDemo-USER:war exploded" />
+    </root>
+  </artifact>
+</component>

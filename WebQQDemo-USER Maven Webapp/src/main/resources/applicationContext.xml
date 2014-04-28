@@ -58,7 +58,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>org.masque.qq.demo.domain.*</value>
+				<value>org.masque.qq.demo.domain</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -115,6 +115,9 @@
 			expression="execution(* org.masque.qq.demo.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
+
+	<!-- 自动扫描dao和service包(自动注入) -->
+	<context:component-scan base-package="org.masque.qq.demo.dao.impl,org.masque.qq.demo.service.impl" />
 
   	<bean id="baseAction" class="org.masque.qq.demo.base.BaseAction"></bean>
   	<bean id="loginAction" class="org.masque.qq.demo.action.LoginAction"></bean>

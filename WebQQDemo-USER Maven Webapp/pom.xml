@@ -83,7 +83,11 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.4</version>
 		</dependency>
-
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>WebQQDemo-USER</finalName>

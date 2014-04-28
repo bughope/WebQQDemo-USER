@@ -11,7 +11,6 @@ public class ClientTest {
 		// sayHello 为接口中定义的方法名称 张三为传递的参数 返回一个Object数组
 		Object[] objects = client.invoke("getUserList", "张三");
 		// 输出调用结果
-		
 		System.out.println(objects[0].toString());
 	}
 }
